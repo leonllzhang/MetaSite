@@ -70,20 +70,101 @@ angular.module('YourApp', ['ngMaterial']).controller("YourController", function(
         alert('add');
         //make a unique name for newly added
         //$scope.column.name = guid();
-        // $scope.Metaobj.Columns[0].Column.push({
-        //     $:{
-        //         indexable: "true",
-        //         name:guid(),
-        //     },
-        //     Properties:[{
-        //         $:{
-        //             key:'',
-        //             value:''
-        //     }
-        //     }],
-        //     description:["new add"] 
+        var newlyadditem = {
+            $:{
+                indexable: "true",
+                name:guid(),
+                size: 50,
+                type:'string'
+            },
+            Properties:[{
+                Property:[{
+                    $:{
+                        key: 'Label',
+                        value:'Newlyadd'
+                    }
+            },{
+                $:{
+                        key: 'Width',
+                        value:'50px'
+                    }
+            },{
+                $:{
+                        key: 'Visable',
+                        value:"true"
+                    }
+            },{
+                $:{
+                        key: 'Sortable',
+                        value:"true"
+                    }
+            },{
+                $:{
+                        key: 'SortName',
+                        value:"RefNum"
+                    }
+            },{
+                $:{
+                        key: 'Searchable',
+                        value:"true"
+                    }
+            },{
+                $:{
+                        key: 'ShortName',
+                        value:"ref"
+                    }
+            },{
+                $:{
+                        key: 'DataSourceType',
+                        value:"0"
+                    }
+            },{
+                $:{
+                        key: 'DataSource',
+                        value:""
+                    }
+            },{
+                $:{
+                        key: 'DataSourceGroupBy',
+                        value:""
+                    }
+            },{
+                $:{
+                        key: 'DataControlType',
+                        value:"1"
+                    }
+            },{
+                $:{
+                        key: 'Require',
+                        value:"false"
+                    }
+            },{
+                $:{
+                        key: 'InvalidMsg',
+                        value:""
+                    }
+            },{
+                $:{
+                        key: 'InputRegular',
+                        value:""
+                    }
+            },{
+                $:{
+                        key: 'DataFormat',
+                        value:""
+                    }
+            },{
+                $:{
+                        key: 'JoinKeyword',
+                        value:";"
+                    }
+            }
+            ]
+            }],
+            description:["new add"] 
+        };
 
-        // });      
+        $scope.Metaobj.Columns[0].Column.push(newlyadditem);      
     };
 
      $scope.addMulticlick = function() {
@@ -155,8 +236,13 @@ angular.module('YourApp', ['ngMaterial']).controller("YourController", function(
     };
 
     $scope.saveedit = function(){
-        console.log($scope.columnsarray);
-        alert(JSON.stringify($scope.columnsarray));
+        console.log($scope.obj);
+        alert(JSON.stringify($scope.obj));
+        $http.post('/save',{Metaobj:$scope.obj}).success(function(){
+            alert('save post success');
+        }).error(function(){
+            alert('save post error');
+        });
 
     };
 
@@ -164,7 +250,7 @@ angular.module('YourApp', ['ngMaterial']).controller("YourController", function(
         $http.get('/config').success(function(obj){
            console.log('success');
            console.log(obj);
-
+           $scope.obj = obj;
            //read the obj.
            var metabase = obj["Metadata-Settings"];
            var versionNo = metabase["$"];   
@@ -201,6 +287,9 @@ function guid() {
       .toString(16)
       .substring(1);
   }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-    s4() + '-' + s4() + s4() + s4();
+  //Guid format.
+  // return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+  //   s4() + '-' + s4() + s4() + s4();
+    return s4() ;
+
 }

@@ -28,4 +28,48 @@ function readXMl2json (filename, cb) {
     });    
 }
 
+function savejsToXmlFile (filename, obj, cb) {
+    var filepath = path.normalize(path.join(__dirname, filename));
+    var builder = new xml2js.Builder();
+    var xml = builder.buildObject(obj);
+    fs.writeFile(filepath, xml, cb);
+}
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  // Guid format.
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+
+
+}
+
+router.post('/save',function(req,res,next){
+    alert('posted');
+    var obj = req.Metaobj;
+    var filepath = '../public/upload/' + 'Metadata-Settings_' +guid() + '.config';
+    savejsToXmlFile(filepath, obj, function (err) {
+        if (err) console.log(err);
+    })
+});
+
+router.post('/',function(req,res,next){
+    alert('posted1');
+    var obj = req.Metaobj;
+    var filepath = '../public/upload/' + 'Metadata-Settings_' +guid() + '.config';
+    savejsToXmlFile(filepath, obj, function (err) {
+        if (err) console.log(err);
+    })
+});
+
+// exports.Save = function(req,res,next){
+//     alert('call save');
+// };
+
 module.exports = router;
+
+
