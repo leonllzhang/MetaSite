@@ -26,77 +26,17 @@
     <!-- The top toolbar -->
     <md-toolbar>
       <div class="md-toolbar-tools">
-       <md-button class="md-icon-button" aria-label="Radiation">
-          <md-icon md-svg-icon="/images/Radiation.svg" ></md-icon>
-        </md-button>
-        <md-button ng-click="loadfile()">load file</md-button>
-        <!-- <md-button aria-label="Go Back" ng-click="loadfile()">load file</md-buttom> -->
+        <md-button  aria-label="Go Back" ng-click="loadfile()"> load file</md-buttom>
         <md-button class="md-raised" ng-click="addclick()"> Add column</md-button>
-        <span>批量生成</span><input type="text"  ng-model="number" ng-pattern="/[0-9]*/">
+        <span>个数</span><input type="text"  ng-model="number" ng-pattern="/[0-9]*/">
         <md-button class="md-raised" ng-click="addclick()" >Add {{number}} column</md-button>
         <md-button class="md-raised" ng-click="saveedit()"> Save edit</md-button>
-
       </div>
     </md-toolbar>
         
-    <md-content class="md-padding" style="">
-            <!-- version Number -->
-            <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
-            <div>            
-              <md-input-container>
-                <label>majorVersion</label>
-                <input ng-model="versionNo.majorVersion">
-              </md-input-container>
-              <md-input-container>
-                <label>minorVersion</label>
-                <input ng-model="versionNo.minorVersion" >
-              </md-input-container>
-              <md-input-container>
-                <label>Entity name</label>
-                <input ng-model="Metaobj.$.name" >
-              </md-input-container>
-              <md-input-container>
-                <label>Description</label>
-                <input ng-model="Metaobj.Description[0]" >
-              </md-input-container>
-              <md-input-container>
-                <label>Workflow-Enable</label>                
-                <input ng-model="Metaobj.Workflow[0].$.enable">
-              </md-input-container>
-              <md-input-container>
-                <label>Workflow-code</label>
-                <input ng-model="Metaobj.Workflow[0].$.code">
-              </md-input-container>
-              <md-input-container>
-                <label>SearchColumn</label>
-                <input ng-model="Metaobj.SearchColumn" >
-              </md-input-container>
-              <md-input-container class="md-block">
-                <label>DefaultColumn</label>
-                <input ng-model="Metaobj.DefaultColumn[0]" >
-              </md-input-container>              
-              <md-input-container class="md-block">
-                <label>EntityTranslatedColumn</label>
-                <input ng-model="Metaobj.EntityTranslatedColumn" >
-              </md-input-container>
-               <md-input-container class="md-block">
-                <label>ListTranslatedColumn</label>
-                <input ng-model="Metaobj.ListTranslatedColumn" >
-              </md-input-container>
-               <md-input-container class="md-block">
-                <label>StringFormatColumn</label>
-                <input ng-model="Metaobj.StringFormatColumn" >
-              </md-input-container>
-               <md-input-container class="md-block">
-                <label>JoinFormatColumn</label>
-                <input ng-model="Metaobj.JoinFormatColumn[0]" >
-              </md-input-container>
-            </div>
-            </md-content>
-            <!-- <md-subheader class="md-primary">Columns:</md-subheader> -->
-            <!-- tabs control -->
+        <md-content class="md-padding" style="">
             <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect md-dynamic-height>
-                <md-tab ng-repeat="column in Metaobj.Columns[0].Column" ng-disabled="column.disabled" label="{{column.$.name}}" >
+                <md-tab ng-repeat="column in columnsarray" ng-disabled="column.disabled" label="{{column.name}}" >
                     <div class="demo-tab column{{$index%4}}" style="padding: 25px; text-align: center;">
                         <div>
                             <!-- tab detail content -->
@@ -105,11 +45,11 @@
                                 <div>
                                     <md-input-container>
                                         <label>Column Name</label>
-                                        <input ng-model="column.$.name">
+                                        <input ng-model="column.name">
                                     </md-input-container>
                                     <md-input-container>
                                         <label>Column size</label>
-                                        <input ng-model="column.$.size" required ng-pattern="/^[0-9]/">
+                                        <input ng-model="column.size" required ng-pattern="/^[0-9]/">
                                     </md-input-container>
                                     <md-input-container>
                                         <label>Column Description</label>
@@ -117,15 +57,15 @@
                                     </md-input-container>
                                     <md-input-container>
                                         <label>Column indexable</label>
-                                        <md-select ng-model="column.$.indexable">
+                                        <md-select ng-model="column.indexable">
                                             <md-option ng-repeat="item in indexable" value="{{item}}">
                                                 {{item}}
                                             </md-option>
                                         </md-select>
                                     </md-input-container>
                                     <md-input-container>
-                                        <label>Column Type</label> 
-                                        <md-select ng-model="column.$.type">
+                                        <label>Column Type</label>
+                                        <md-select ng-model="column.type">
                                             <md-option ng-repeat="type in types" value="{{type.columntype}}">
                                                 {{type.columntype}}
                                             </md-option>
@@ -137,21 +77,12 @@
                             <md-content layout-padding>
                                 <div>
                                     <form name="columnForm">
-                                        <div layout-gt-sm="row" ng-repeat="prop in column.Properties[0].Property  track by $index " ng-if="$index %4 == 0">
-                                            
-                                            <md-input-container class="md-block" flex-gt-sm ng-repeat="i in [$index,$index+1,$index+2,$index+3]" ng-if="column.Properties[0].Property[i].$ != null">
-                                                <label>{{column.Properties[0].Property[i].$.key}}</label>
-                                                <input ng-model="column.Properties[0].Property[i].$.value">
+                                        <div layout-gt-sm="row" ng-repeat="prop in column.propertys track by $index " ng-if="$index %4 == 0">
+                                            <md-input-container class="md-block" flex-gt-sm ng-repeat="i in [$index,$index+1,$index+2,$index+3]" ng-if="column.propertys[i] != null">
+                                                <label>{{column.propertys[i].key}}</label>
+                                                <input ng-model="column.propertys[i].value">
                                             </md-input-container>
                                         </div>
-
-                                       <!--  <div layout-gt-sm="row" ng-repeat="prop in column.Properties[0].Property " >
-                                            
-                                            <md-input-container class="md-block" flex-gt-sm>
-                                                <label>{{prop.$.key}}</label>
-                                                <input ng-model="prop.$.value">
-                                            </md-input-container>
-                                        </div> -->
                                     </form>
                                 </div>
                             </md-content>

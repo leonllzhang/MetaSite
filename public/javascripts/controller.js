@@ -65,305 +65,25 @@ angular.module('YourApp', ['ngMaterial']).controller("YourController", function(
     });
     $scope.indexable = [true, false];
 
-    $scope.columnsarray = [{
-        name: 'RefNum',
-        type: 'string',
-        size: '32',
-        indexable: 'true',
-        description: 'wosssdfsdf',
-        propertys: [{
-            key: 'Label',
-            value: 'CO Ref Number'
-        }, {
-            key: 'Width',
-            value: '50px'
-        }, {
-            key: 'Order',
-            value: '0'
-        }, {
-            key: 'Visable',
-            value: 'true'
-        }, {
-            key: 'Sortable',
-            value: 'true'
-        }, {
-            key: 'SortName',
-            value: 'RefNum'
-        }, {
-            key: 'Searchable',
-            value: 'true'
-        }, {
-            key: 'ShortName',
-            value: 'ref'
-        }, {
-            key: 'DataSourceType',
-            value: ''
-        }, {
-            key: 'DataSource',
-            value: ''
-        }, {
-            key: 'DataSourceGroupBy',
-            value: ''
-        }, {
-            key: 'DataControlType',
-            value: '1'
-        }, {
-            key: 'Require',
-            value: 'false'
-        }, {
-            key: 'InvalidMsg',
-            value: ''
-        }, {
-            key: 'InputRegular',
-            value: ''
-        }, {
-            key: 'DataFormat',
-            value: ''
-        }, {
-            key: 'JoinKeyword',
-            value: ';'
-        }]
-    }, {
-        name: 'Requestdetails',
-        type: 'string',
-        size: '200',
-        indexable: 'true',
-        description: 'Requestdetails',
-        propertys: [{
-            key: 'Label',
-            value: 'Requestdetails'
-        }, {
-            key: 'Width',
-            value: '50px'
-        }, {
-            key: 'Order',
-            value: '0'
-        }, {
-            key: 'Visable',
-            value: 'true'
-        }, {
-            key: 'Sortable',
-            value: 'true'
-        }, {
-            key: 'SortName',
-            value: 'Requestdetails'
-        }, {
-            key: 'Searchable',
-            value: 'true'
-        }, {
-            key: 'ShortName',
-            value: 'Requestdetails'
-        }, {
-            key: 'DataSourceType',
-            value: ''
-        }, {
-            key: 'DataSource',
-            value: ''
-        }, {
-            key: 'DataSourceGroupBy',
-            value: ''
-        }, {
-            key: 'DataControlType',
-            value: '1'
-        }, {
-            key: 'Require',
-            value: 'false'
-        }, {
-            key: 'InvalidMsg',
-            value: ''
-        }, {
-            key: 'InputRegular',
-            value: ''
-        }, {
-            key: 'DataFormat',
-            value: ''
-        }, {
-            key: 'JoinKeyword',
-            value: ';'
-        }]
-    }, {
-        name: 'RequestNatureOfGift',
-        type: 'string',
-        size: '300',
-        indexable: 'true',
-        description: 'RequestNatureOfGift',
-        propertys: [{
-            key: 'Label',
-            value: 'RequestNatureOfGift'
-        }, {
-            key: 'Width',
-            value: '50px'
-        }, {
-            key: 'Order',
-            value: '0'
-        }, {
-            key: 'Visable',
-            value: 'true'
-        }, {
-            key: 'Sortable',
-            value: 'true'
-        }, {
-            key: 'SortName',
-            value: 'RequestNatureOfGift'
-        }, {
-            key: 'Searchable',
-            value: 'true'
-        }, {
-            key: 'ShortName',
-            value: 'ref'
-        }, {
-            key: 'DataSourceType',
-            value: ''
-        }, {
-            key: 'DataSource',
-            value: ''
-        }, {
-            key: 'DataSourceGroupBy',
-            value: ''
-        }, {
-            key: 'DataControlType',
-            value: '1'
-        }, {
-            key: 'Require',
-            value: 'false'
-        }, {
-            key: 'InvalidMsg',
-            value: ''
-        }, {
-            key: 'InputRegular',
-            value: ''
-        }, {
-            key: 'DataFormat',
-            value: ''
-        }, {
-            key: 'JoinKeyword',
-            value: ';'
-        }]
-    }, {
-        name: 'RealClientName',
-        type: 'string',
-        size: '50',
-        indexable: 'true',
-        description: 'Real Client Name',
-        propertys: [{
-            key: 'Label',
-            value: 'Nature of gift'
-        }, {
-            key: 'Width',
-            value: '50px'
-        }, {
-            key: 'Order',
-            value: '0'
-        }, {
-            key: 'Visable',
-            value: 'true'
-        }, {
-            key: 'Sortable',
-            value: 'true'
-        }, {
-            key: 'SortName',
-            value: 'RefNum'
-        }, {
-            key: 'Searchable',
-            value: 'true'
-        }, {
-            key: 'ShortName',
-            value: 'ref'
-        }, {
-            key: 'DataSourceType',
-            value: ''
-        }, {
-            key: 'DataSource',
-            value: ''
-        }, {
-            key: 'DataSourceGroupBy',
-            value: ''
-        }, {
-            key: 'DataControlType',
-            value: '1'
-        }, {
-            key: 'Require',
-            value: 'false'
-        }, {
-            key: 'InvalidMsg',
-            value: ''
-        }, {
-            key: 'InputRegular',
-            value: ''
-        }, {
-            key: 'DataFormat',
-            value: ''
-        }, {
-            key: 'JoinKeyword',
-            value: ';'
-        }]
-    }];
-    $scope.addclick = function() {
-        console.log(JSON.stringify($scope.column));
+    
+    $scope.addclick = function() {        
         alert('add');
         //make a unique name for newly added
         //$scope.column.name = guid();
+        // $scope.Metaobj.Columns[0].Column.push({
+        //     $:{
+        //         indexable: "true",
+        //         name:guid(),
+        //     },
+        //     Properties:[{
+        //         $:{
+        //             key:'',
+        //             value:''
+        //     }
+        //     }],
+        //     description:["new add"] 
 
-       $scope.columnsarray.push({
-        name: guid(),
-        type: 'string',
-        size: '32',
-        indexable: 'true',
-        description: 'wosssdfsdf',
-        propertys: [{
-            key: 'Label',
-            value: 'CO Ref Number'
-        }, {
-            key: 'Width',
-            value: '50px'
-        }, {
-            key: 'Order',
-            value: '0'
-        }, {
-            key: 'Visable',
-            value: 'true'
-        }, {
-            key: 'Sortable',
-            value: 'true'
-        }, {
-            key: 'SortName',
-            value: 'RefNum'
-        }, {
-            key: 'Searchable',
-            value: 'true'
-        }, {
-            key: 'ShortName',
-            value: 'ref'
-        }, {
-            key: 'DataSourceType',
-            value: ''
-        }, {
-            key: 'DataSource',
-            value: ''
-        }, {
-            key: 'DataSourceGroupBy',
-            value: ''
-        }, {
-            key: 'DataControlType',
-            value: '1'
-        }, {
-            key: 'Require',
-            value: 'false'
-        }, {
-            key: 'InvalidMsg',
-            value: ''
-        }, {
-            key: 'InputRegular',
-            value: ''
-        }, {
-            key: 'DataFormat',
-            value: ''
-        }, {
-            key: 'JoinKeyword',
-            value: ';'
-        }]
-    }
-        );
+        // });      
     };
 
      $scope.addMulticlick = function() {
@@ -444,7 +164,26 @@ angular.module('YourApp', ['ngMaterial']).controller("YourController", function(
         $http.get('/config').success(function(obj){
            console.log('success');
            console.log(obj);
-           alert(obj);
+
+           //read the obj.
+           var metabase = obj["Metadata-Settings"];
+           var versionNo = metabase["$"];   
+           //version number.
+           $scope.versionNo = versionNo;
+           // $scope.minorVersion = versionNo.minorVersion;
+           //Entitys:
+           var Entitys =  metabase["Entitys"];
+           var Entity0 = Entitys[0];
+           var entity  = Entity0.Entity;
+           var entityee0 = entity[0];   
+           console.log("entity:");
+           console.log(entityee0); 
+           console.log("column:");     
+           console.log(entityee0.Columns[0].Column);
+           console.log("Property:");
+           console.log(entityee0.Columns[0].Column[0].Properties[0].Property[0]);
+           $scope.Metaobj = entityee0;
+           
         }).error(function(){
             alert('error');
         });
