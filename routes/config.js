@@ -49,16 +49,21 @@ function guid() {
 }
 
 router.post('/save',function(req,res,next){
-    alert('posted');
-    var obj = req.Metaobj;
+    console.log('posted');
+    var obj = req.body.Metaobj;
+    console.log("req");
+    console.dir(req.params);
+    console.dir(req.body.Metaobj);
+    console.dir(obj);
     var filepath = '../public/upload/' + 'Metadata-Settings_' +guid() + '.config';
+    console.log(filepath);
     savejsToXmlFile(filepath, obj, function (err) {
         if (err) console.log(err);
     })
 });
 
 router.post('/',function(req,res,next){
-    alert('posted1');
+    console.log('posted1');
     var obj = req.Metaobj;
     var filepath = '../public/upload/' + 'Metadata-Settings_' +guid() + '.config';
     savejsToXmlFile(filepath, obj, function (err) {
