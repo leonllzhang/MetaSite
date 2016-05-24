@@ -239,13 +239,13 @@ angular.module('YourApp', ['ngMaterial']).controller("YourController", function(
         console.log("$scope.obj:");
         console.log($scope.obj);
         //alert(JSON.stringify($scope.obj));
-        $http.post('/config/save',{Metaobj:$scope.obj}).success(function(){
+        $http.post('/config/save',{Metaobj:$scope.obj}).success(function(result){
             alert('save post success');
         }).error(function(){
             alert('save post error');
         });
 
-        
+
 
     };
 

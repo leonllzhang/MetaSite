@@ -62,7 +62,7 @@ router.post('/save',function(req,res,next){
         if (err) {console.log(err);}
         else{
             console.log('success');
-            res.status(200);
+            res.end('{"success" : "Updated Successfully", "status" : 200}');
         }
     })
 });
