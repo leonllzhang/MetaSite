@@ -32,7 +32,8 @@ function savejsToXmlFile (filename, obj, cb) {
     var filepath = path.normalize(path.join(__dirname, filename));
     var builder = new xml2js.Builder();
     var xml = builder.buildObject(obj);
-    fs.writeFile(filepath, xml, cb);
+    fs.writeFile(filepath, xml, cb);    
+    console.log('write done');
 }
 
 function guid() {
@@ -58,7 +59,11 @@ router.post('/save',function(req,res,next){
     var filepath = '../public/upload/' + 'Metadata-Settings_' +guid() + '.config';
     console.log(filepath);
     savejsToXmlFile(filepath, obj, function (err) {
-        if (err) console.log(err);
+        if (err) {console.log(err);}
+        else{
+            console.log('success');
+            res.status(200);
+        }
     })
 });
 
@@ -67,7 +72,14 @@ router.post('/',function(req,res,next){
     var obj = req.Metaobj;
     var filepath = '../public/upload/' + 'Metadata-Settings_' +guid() + '.config';
     savejsToXmlFile(filepath, obj, function (err) {
-        if (err) console.log(err);
+        console.log('call back');
+        if (err){
+            console.log(err);
+        } 
+        else{
+            console.log('success');
+            res.status(200);
+        }
     })
 });
 
