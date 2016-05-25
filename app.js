@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var config = require('./routes/config');
+var input = require('./routes/input');
+var load = require('./routes/load');
 
 var app = express();
 
@@ -28,6 +30,8 @@ app.set('upload', __dirname+'/public/upload');
 app.use('/', routes);
 app.use('/users', users);
 
+app.use('/load',load);
+app.use('/input',input);
 //**get config set.
 app.use('/config',config);
 app.post('/config/save',config);

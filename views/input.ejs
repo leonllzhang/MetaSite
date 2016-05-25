@@ -20,16 +20,20 @@
 
 </head>
 
-<body ng-app="YourApp">
+<body ng-app="InputApp">
     <div ng-controller="YourController" layout="column" ng-cloak class="md-inline-form">
     
     <!-- The top toolbar -->
     <md-toolbar>
       <div class="md-toolbar-tools">
+      
        <md-button class="md-icon-button" aria-label="Radiation">
           <md-icon md-svg-icon="/images/Radiation.svg" ></md-icon>
         </md-button>
-        <md-button ng-click="loadfile()">load file</md-button>
+        <h2>
+          <span>Manually Create</span>
+        </h2>
+        <!-- <md-button ng-click="loadfile()">load file</md-button> -->
         <!-- <md-button aria-label="Go Back" ng-click="loadfile()">load file</md-buttom> -->
         <md-button class="md-raised" ng-click="addclick()"> Add column</md-button>
         <span>批量生成</span><input type="text"  ng-model="number" ng-pattern="/[0-9]*/">
@@ -140,7 +144,7 @@
                                         <div layout-gt-sm="row" ng-repeat="prop in column.Properties[0].Property  track by $index " ng-if="$index %4 == 0">
                                             
                                             <md-input-container class="md-block" flex-gt-sm ng-repeat="i in [$index,$index+1,$index+2,$index+3]" ng-if="column.Properties[0].Property[i].$ != null">
-                                                <label>{{column.Properties[0].Property[i].$.key}}</label>
+                                                <label style="text-align:left;">{{column.Properties[0].Property[i].$.key}}</label>
                                                 <input ng-model="column.Properties[0].Property[i].$.value">
                                             </md-input-container>
                                         </div>
@@ -243,6 +247,6 @@
   </form>
 </div> -->
 </body>
-<script src="/javascripts/controller.js"></script>
+<script src="/javascripts/inputcontroller.js"></script>
 
 </html>
