@@ -1,4 +1,4 @@
-angular.module('YourApp', ['ngMaterial']).controller("YourController", function($scope,$http) {
+angular.module('YourApp', ['ngMaterial']).controller("YourController", function($scope,$http) {    
     $scope.column = {
         name: 'NewAdd',
         type: 'string',
@@ -283,7 +283,8 @@ angular.module('YourApp', ['ngMaterial']).controller("YourController", function(
             alert('error');
         });
     };
-
+    //call to load config file.
+    $scope.loadfile();
 }).config(function($mdThemingProvider) {
     $mdThemingProvider.theme('docs-dark', 'default')
         .primaryPalette('yellow')

@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var config = require('./routes/config');
 var input = require('./routes/input');
 var load = require('./routes/load');
+var upload =  require('./routes/upload');
 
 var app = express();
 
@@ -35,6 +36,8 @@ app.use('/input',input);
 //**get config set.
 app.use('/config',config);
 app.post('/config/save',config);
+//文件上传路由
+app.post('/submit',upload.submit(app.get('upload')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
