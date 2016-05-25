@@ -240,6 +240,7 @@ angular.module('YourApp', ['ngMaterial']).controller("YourController", function(
         console.log($scope.obj);
         //alert(JSON.stringify($scope.obj));
         $http.post('/config/save',{Metaobj:$scope.obj}).success(function(result){
+            console.dir(result);
             alert('save post success');
         }).error(function(){
             alert('save post error');
@@ -247,6 +248,11 @@ angular.module('YourApp', ['ngMaterial']).controller("YourController", function(
 
 
 
+    };
+
+    $scope.removeTab = function(column){
+        var index = $scope.Metaobj.Columns[0].Column.indexOf(column);
+        $scope.Metaobj.Columns[0].Column.splice(index,1);
     };
 
     $scope.loadfile = function(){
