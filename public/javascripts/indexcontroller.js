@@ -101,6 +101,11 @@ angular.module('app', ['ngMaterial']).controller("FileUploadCtrl", function($sco
         alert("The upload has been canceled by the user or the browser dropped the connection.")
     }
 
+    //**************************
+    $scope.gomanual = function(){
+        $window.location.href = '/input';
+    }
+
 }).config(function($mdThemingProvider) {
     $mdThemingProvider.theme('docs-dark', 'default')
         .primaryPalette('yellow')
