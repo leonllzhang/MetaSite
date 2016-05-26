@@ -7,9 +7,10 @@ var join = path.join;
 
 exports.submit = function(dir){
 	return function(req,res,next){
+		console.log('req');
 		req.pipe(req.busboy);
 		var fstream;
-
+		console.log('file extract start');
 		req.busboy.on('file',function(fieldname,file,filename){
 			console.log("filename: " + filename);
 			console.log("file: " + file);
@@ -24,7 +25,7 @@ exports.submit = function(dir){
 				// 	path: filename
 				// });
 				//fs.rename();
-				res.redirect('/');
+				res.redirect('/load');
 			});
 			//var img = file.photo.image;
 			//var path = join(dir,img.name);

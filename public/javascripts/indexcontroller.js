@@ -1,126 +1,53 @@
-angular.module('YourApp', ['ngMaterial']).controller("YourController", function($scope,$http,$mdMedia,$mdDialog) {
-    $scope.column = {
-        name: 'NewAdd',
-        type: 'string',
-        size: '32',
-        indexable: 'true',
-        description: 'wosssdfsdf',
-        propertys: [{
-            key: 'Label',
-            value: 'CO Ref Number'
-        }, {
-            key: 'Width',
-            value: '50px'
-        }, {
-            key: 'Order',
-            value: '0'
-        }, {
-            key: 'Visable',
-            value: 'true'
-        }, {
-            key: 'Sortable',
-            value: 'true'
-        }, {
-            key: 'SortName',
-            value: 'RefNum'
-        }, {
-            key: 'Searchable',
-            value: 'true'
-        }, {
-            key: 'ShortName',
-            value: 'ref'
-        }, {
-            key: 'DataSourceType',
-            value: ''
-        }, {
-            key: 'DataSource',
-            value: ''
-        }, {
-            key: 'DataSourceGroupBy',
-            value: ''
-        }, {
-            key: 'DataControlType',
-            value: '1'
-        }, {
-            key: 'Require',
-            value: 'false'
-        }, {
-            key: 'InvalidMsg',
-            value: ''
-        }, {
-            key: 'InputRegular',
-            value: ''
-        }, {
-            key: 'DataFormat',
-            value: ''
-        }, {
-            key: 'JoinKeyword',
-            value: ';'
-        }]
-    };
-    $scope.types = ('int;string;dateTime').split(';').map(function(type) {
-        return {
-            columntype: type
-        };
-    });
-    $scope.indexable = [true, false];
-
-    $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-
-    $scope.loaddialog = function(ev){
-        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
-    $mdDialog.show({
-      controller: DialogController,
-      templateUrl: 'dialog1.tmpl.html',
-      parent: angular.element(document.body),
-      targetEvent: ev,
-      clickOutsideToClose:true,
-      fullscreen: useFullScreen,
-      locals:{
-        file:{
-            name:'test',
-            file:''
-        }
-      }
-
-    })
-    .then(function(answer) {
-        alert('n');
-      $scope.status = 'You said the information was "' + answer + '".';
-    }, function() {
-      $scope.status = 'You cancelled the dialog.';
-    });
-    $scope.$watch(function() {
-      return $mdMedia('xs') || $mdMedia('sm');
-    }, function(wantsFullScreen) {
-      $scope.customFullscreen = (wantsFullScreen === true);
-    });
-    };
-
-
-    function DialogController($scope, $mdDialog,file) {
-        $scope.file = file;
-  $scope.hide = function() {
-    $mdDialog.hide();
-  };
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
-  $scope.answer = function(answer) {
-
-    console.log($scope);
-    console.log($mdDialog);
-    console.log(file);
-    console.log($scope.file.name);
-    alert('e');
-    console.log(answer);
+angular.module('app', ['ngMaterial']).controller("FileUploadCtrl", function($scope,$http,$mdMedia,$window) {
     
-    $mdDialog.hide(answer);
-  };
+   //============== DRAG & DROP =============
+    // source for drag&drop: http://www.webappers.com/2011/09/28/drag-drop-file-upload-with-html5-javascript/
+    var dropbox = document.getElementById("dropbox")
+    $scope.dropText = 'Drop files here...'
 
-$scope.setFiles = function(element) {
-    console.log('sss');
-    $scope.$apply(function(scope) {
+    // init event handlers
+    function dragEnterLeave(evt) {
+        evt.stopPropagation()
+        evt.preventDefault()
+        $scope.$apply(function(){
+            $scope.dropText = 'Drop files here...'
+            $scope.dropClass = ''
+        })
+    }
+    dropbox.addEventListener("dragenter", dragEnterLeave, false)
+    dropbox.addEventListener("dragleave", dragEnterLeave, false)
+    dropbox.addEventListener("dragover", function(evt) {
+        evt.stopPropagation()
+        evt.preventDefault()
+        var clazz = 'not-available'
+        var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0
+        $scope.$apply(function(){
+            $scope.dropText = ok ? 'Drop files here...' : 'Only files are allowed!'
+            $scope.dropClass = ok ? 'over' : 'not-available'
+        })
+    }, false)
+    dropbox.addEventListener("drop", function(evt) {
+        console.log('drop evt:', JSON.parse(JSON.stringify(evt.dataTransfer)))
+        evt.stopPropagation()
+        evt.preventDefault()
+        $scope.$apply(function(){
+            $scope.dropText = 'Drop files here...'
+            $scope.dropClass = ''
+        })
+        var files = evt.dataTransfer.files
+        if (files.length > 0) {
+            $scope.$apply(function(){
+                $scope.files = []
+                for (var i = 0; i < files.length; i++) {
+                    $scope.files.push(files[i])
+                }
+            })
+        }
+    }, false)
+    //============== DRAG & DROP =============
+
+    $scope.setFiles = function(element) {
+    $scope.$apply(function($scope) {
       console.log('files:', element.files);
       // Turn the FileList object into an Array
         $scope.files = []
@@ -130,11 +57,11 @@ $scope.setFiles = function(element) {
       $scope.progressVisible = false
       });
     };
-  $scope.uploadFile = function($scope){
-    console.log('file upload');
-    var fd = new FormData();
-    for (var i in $scope.files) {
-            fd.append("uploadedFile", scope.files[i])
+
+    $scope.uploadFile = function() {
+        var fd = new FormData()
+        for (var i in $scope.files) {
+            fd.append("uploadedFile", $scope.files[i])
         }
         var xhr = new XMLHttpRequest()
         xhr.upload.addEventListener("progress", uploadProgress, false)
@@ -142,228 +69,37 @@ $scope.setFiles = function(element) {
         xhr.addEventListener("error", uploadFailed, false)
         xhr.addEventListener("abort", uploadCanceled, false)
         xhr.open("POST", "/fileupload")
-        scope.progressVisible = true
+        $scope.progressVisible = true
         xhr.send(fd)
-  }
-
-}
-    $scope.addclick = function() {        
-        alert('add');
-        //make a unique name for newly added
-        //$scope.column.name = guid();
-        var newlyadditem = {
-            $:{
-                indexable: "true",
-                name:guid(),
-                size: 50,
-                type:'string'
-            },
-            Properties:[{
-                Property:[{
-                    $:{
-                        key: 'Label',
-                        value:'Newlyadd'
-                    }
-            },{
-                $:{
-                        key: 'Width',
-                        value:'50px'
-                    }
-            },{
-                $:{
-                        key: 'Visable',
-                        value:"true"
-                    }
-            },{
-                $:{
-                        key: 'Sortable',
-                        value:"true"
-                    }
-            },{
-                $:{
-                        key: 'SortName',
-                        value:"RefNum"
-                    }
-            },{
-                $:{
-                        key: 'Searchable',
-                        value:"true"
-                    }
-            },{
-                $:{
-                        key: 'ShortName',
-                        value:"ref"
-                    }
-            },{
-                $:{
-                        key: 'DataSourceType',
-                        value:"0"
-                    }
-            },{
-                $:{
-                        key: 'DataSource',
-                        value:""
-                    }
-            },{
-                $:{
-                        key: 'DataSourceGroupBy',
-                        value:""
-                    }
-            },{
-                $:{
-                        key: 'DataControlType',
-                        value:"1"
-                    }
-            },{
-                $:{
-                        key: 'Require',
-                        value:"false"
-                    }
-            },{
-                $:{
-                        key: 'InvalidMsg',
-                        value:""
-                    }
-            },{
-                $:{
-                        key: 'InputRegular',
-                        value:""
-                    }
-            },{
-                $:{
-                        key: 'DataFormat',
-                        value:""
-                    }
-            },{
-                $:{
-                        key: 'JoinKeyword',
-                        value:";"
-                    }
-            }
-            ]
-            }],
-            description:["new add"] 
-        };
-
-        $scope.Metaobj.Columns[0].Column.push(newlyadditem);      
-    };
-
-     $scope.addMulticlick = function() {
-        console.log(JSON.stringify($scope.name));
-        alert('add');
-        //make a unique name for newly added
-        //$scope.column.name = guid();
-
-       $scope.columnsarray.push({
-        name: guid(),
-        type: 'string',
-        size: '32',
-        indexable: 'true',
-        description: 'wosssdfsdf',
-        propertys: [{
-            key: 'Label',
-            value: 'CO Ref Number'
-        }, {
-            key: 'Width',
-            value: '50px'
-        }, {
-            key: 'Order',
-            value: '0'
-        }, {
-            key: 'Visable',
-            value: 'true'
-        }, {
-            key: 'Sortable',
-            value: 'true'
-        }, {
-            key: 'SortName',
-            value: 'RefNum'
-        }, {
-            key: 'Searchable',
-            value: 'true'
-        }, {
-            key: 'ShortName',
-            value: 'ref'
-        }, {
-            key: 'DataSourceType',
-            value: ''
-        }, {
-            key: 'DataSource',
-            value: ''
-        }, {
-            key: 'DataSourceGroupBy',
-            value: ''
-        }, {
-            key: 'DataControlType',
-            value: '1'
-        }, {
-            key: 'Require',
-            value: 'false'
-        }, {
-            key: 'InvalidMsg',
-            value: ''
-        }, {
-            key: 'InputRegular',
-            value: ''
-        }, {
-            key: 'DataFormat',
-            value: ''
-        }, {
-            key: 'JoinKeyword',
-            value: ';'
-        }]
     }
-        );
-    };
 
-    $scope.saveedit = function(){
-        console.log("$scope.obj:");
-        console.log($scope.obj);
-        //alert(JSON.stringify($scope.obj));
-        $http.post('/config/save',{Metaobj:$scope.obj}).success(function(result){
-            console.dir(result);
-            alert('save post success');
-        }).error(function(){
-            alert('save post error');
-        });
+    function uploadProgress(evt) {
+        $scope.$apply(function(){
+            if (evt.lengthComputable) {
+                $scope.progress = Math.round(evt.loaded * 100 / evt.total)
+            } else {
+                $scope.progress = 'unable to compute'
+            }
+        })
+    }
 
+    function uploadComplete(evt,res) {
+        /* This event is raised when the server send back a response */
+        alert(evt.target.responseText)
+        //跳转到load界面
+        $window.location.href = '/load';
+    }
 
+    function uploadFailed(evt) {
+        alert("There was an error attempting to upload the file.")
+    }
 
-    };
-
-    $scope.removeTab = function(column){
-        var index = $scope.Metaobj.Columns[0].Column.indexOf(column);
-        $scope.Metaobj.Columns[0].Column.splice(index,1);
-    };
-
-    $scope.loadfile = function(){
-        $http.get('/config').success(function(obj){
-           console.log('success');
-           console.log(obj);
-           $scope.obj = obj;
-           //read the obj.
-           var metabase = obj["Metadata-Settings"];
-           var versionNo = metabase["$"];   
-           //version number.
-           $scope.versionNo = versionNo;
-           // $scope.minorVersion = versionNo.minorVersion;
-           //Entitys:
-           var Entitys =  metabase["Entitys"];
-           var Entity0 = Entitys[0];
-           var entity  = Entity0.Entity;
-           var entityee0 = entity[0];   
-           console.log("entity:");
-           console.log(entityee0); 
-           console.log("column:");     
-           console.log(entityee0.Columns[0].Column);
-           console.log("Property:");
-           console.log(entityee0.Columns[0].Column[0].Properties[0].Property[0]);
-           $scope.Metaobj = entityee0;
-           
-        }).error(function(){
-            alert('error');
-        });
-    };
+    function uploadCanceled(evt) {
+        $scope.$apply(function(){
+            $scope.progressVisible = false
+        })
+        alert("The upload has been canceled by the user or the browser dropped the connection.")
+    }
 
 }).config(function($mdThemingProvider) {
     $mdThemingProvider.theme('docs-dark', 'default')

@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var busboy = require('connect-busboy');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var config = require('./routes/config');
@@ -17,6 +19,8 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(busboy());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -37,7 +41,7 @@ app.use('/input',input);
 app.use('/config',config);
 app.post('/config/save',config);
 //文件上传路由
-app.post('/submit',upload.submit(app.get('upload')));
+app.post('/fileupload',upload.submit(app.get('upload')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
